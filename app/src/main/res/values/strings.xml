@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Carent</string>
+    <string name="app_name">CaRent</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -9,4 +9,19 @@
     <string name="site_link">http://carent.zzz.com.ua/</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="no_connection">Тo internet connection available!</string>
+    <string name="signin">Sign in</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="email">E-mail</string>
+    <string name="continue_">Continue</string>
+    <string name="createaccount">Create account</string>
+    <string name="alreadyhave">Already have an account?</string>
+    <string name="emptyfield">This field cannot be empty!</string>
+    <string name="incorrect">Incorrect login or password</string>
+    <string name="errorconnection">Connection error.</string>
+    <string name="ok">Ok</string>
+    <string name="successfuly_login">You have successfully logged in!</string>
+    <string name="account">Account</string>
+    <string name="verificated">User verified</string>
+    <string name="noverificated">User not verified!</string>
 </resources>

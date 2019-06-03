@@ -3,7 +3,7 @@ package prusbogdan.carent.Classes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-public class User {
+public class User implements Serializable{
     @SerializedName("id")
     @Expose
     int id;
@@ -57,5 +57,20 @@ public class User {
 
     public int getActive() {
         return active;
+    }
+
+    public User(int id, String login, String password, String email, int role, int active){
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.active = active;
+
+    }
+
+    User(int id, String login){
+        this.id = id;
+        this.login = login;
     }
 }

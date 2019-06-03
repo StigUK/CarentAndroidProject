@@ -3,7 +3,9 @@ package prusbogdan.carent.Classes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CarModel {
+import java.io.Serializable;
+
+public class CarModel implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;

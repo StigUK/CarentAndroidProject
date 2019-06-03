@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SliderActivity">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/slidertest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/slidercar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="50px"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/slidercar"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/sliderskip"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:background="@drawable/skip" />
+
+        <Button
+            android:id="@+id/slidersignin"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:visibility="invisible"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/signin" />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

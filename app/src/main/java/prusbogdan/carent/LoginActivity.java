@@ -8,8 +8,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import prusbogdan.carent.Classes.User;
 import retrofit2.Call;
@@ -20,10 +27,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
+
+    public static Data data;
+    final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Context context = this;
+        data = SplashScreen.data;
+        //loaddata(context);
+        setTitle(R.string.login);
         setContentView(R.layout.activity_login);
         Button createaccount = findViewById(R.id.login_create);
         final TextInputEditText login = findViewById(R.id.signin_login_edit);
@@ -31,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         createaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                savedata(context);
+                Intent intent = new Intent(context, RegistrationActivity.class);
                 startActivity(intent);
             }
         });
@@ -49,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                                     dialog.cancel();
                                 }
                             });
-                    String url = SplashScreen.data.url;
+                    String url = data.url;
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(url)
                             .addConverterFactory(GsonConverterFactory.create())
@@ -62,16 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 if(response.body()!=null)
                                 {
-                                    SplashScreen.data.user = response.body();
-                                    //SplashScreen.data.SaveUser(response.body(),context);
+                                    data.user = response.body();
+                                    data.SaveUser(response.body(),context);
                                     alert.setMessage(R.string.successfuly_login);
                                     alert.show();
                                     gotomain();
                                 }
                                 else
                                 {
-                                    //login.setError(getString(R.string.incorrect));
-                                    //password.setError(getString(R.string.incorrect));
                                     alert.setMessage(R.string.incorrect);
                                     alert.show();
                                 }
@@ -96,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void gotomain()
     {
+        savedata(context);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -116,31 +128,43 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-    /*public void logIn(""){
-        String hash_pass = CryptWithMD5.cryptWithMD5(pass);
-        final Call<Client> client = MainActivity.serverApi.getOneClient(carNumb, hash_pass);
-        client.enqueue(new Callback<Client>() {
-            @Override
-            public void onResponse(Call<Client> call, Response<Client> response) {
-                if (response.isSuccessful()) {
-                    if(response.body()!=null)
-                    {
-                        saveUserData(response.body());
-                        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        incorrectData();
-                        showToast("Не правильний номер чи пароль!");
-                    }
-                }
-                else showToast("Немає з'єднання із сервером!");
-            }
-            @Override
-            public void onFailure(Call<Client> call, Throwable t) {
-                tv.setText("failure " + t);
-            }
-        });
-    }*/
 
+    @Override
+    public void onBackPressed() {
+    }
+
+    private void savedata(Context context)
+    {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        try {
+            FileOutputStream fos =  context.openFileOutput("data.out", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(data);
+            os.close();
+            fos.close();
+        } catch (IOException e) {
+            alert.setMessage(e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        }
+    }
+
+    private void loaddata(Context context)
+    {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        try {
+            FileInputStream fis = context.openFileInput("data.out");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            data = (Data) is.readObject();
+            is.close(); fis.close();
+        } catch (IOException e) {
+            alert.setMessage(e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            alert.setMessage(e.getMessage());
+            alert.show();
+        }
+    }
 }

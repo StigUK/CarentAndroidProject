@@ -5,19 +5,37 @@ import android.content.Context;
 import android.service.autofill.SaveInfo;
 import android.support.v7.app.AlertDialog;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import prusbogdan.carent.Classes.Banlist;
 import prusbogdan.carent.Classes.User;
 import prusbogdan.carent.Classes.UserInfo;
 import retrofit2.Callback;
 
-public class Data {
+public class Data implements Serializable {
+
+    @SerializedName("itsnew")
+    @Expose
+    boolean itsnew;
+    @SerializedName("user")
+    @Expose
     User user;
+    @SerializedName("url")
+    @Expose
     String url = "http://192.168.1.210";
+    @SerializedName("ban;")
+    @Expose
+    Banlist ban;
+    @SerializedName("userInfo")
+    @Expose
     UserInfo userInfo;
     public void SaveUser(User user_, Context context) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -27,7 +45,6 @@ public class Data {
             os.writeObject(user_);
             os.close();
             fos.close();
-            alert.show();
         } catch (IOException e) {
             alert.setMessage(e.getMessage());
             alert.show();
@@ -43,7 +60,6 @@ public class Data {
             ObjectInputStream is = new ObjectInputStream(fis);
             user = (User) is.readObject();
             is.close(); fis.close();
-            alert.show();
             return true;
         } catch (IOException e) {
             alert.setMessage(e.getMessage());
@@ -61,6 +77,15 @@ public class Data {
     public void SaveInfo(UserInfo info)
     {
         userInfo = info;
+    }
+
+    public boolean destroy(Context context)
+    {
+        userInfo=null;
+        ban=null;
+        user=null;
+        SaveUser(user, context);
+        return true;
     }
 
 }

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#2196F3</color>
+    <color name="banbackred">#b72f2f</color>
+    <color name="white">#FFFFFF</color>
 </resources>

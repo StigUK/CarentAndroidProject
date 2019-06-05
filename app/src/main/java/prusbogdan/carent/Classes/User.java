@@ -12,7 +12,7 @@ public class User implements Serializable{
     String login;
     @SerializedName("email")
     @Expose
-    String email;
+    public String email;
     @SerializedName("password")
     @Expose
     String password;

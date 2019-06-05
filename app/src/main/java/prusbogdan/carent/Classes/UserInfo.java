@@ -3,7 +3,7 @@ package prusbogdan.carent.Classes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-public class UserInfo{
+public class UserInfo implements Serializable{
     @SerializedName("id")
     @Expose
     private int id;

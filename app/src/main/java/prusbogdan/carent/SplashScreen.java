@@ -10,7 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import prusbogdan.carent.Adapters.ImageAdapter;
+import prusbogdan.carent.Classes.User;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -18,23 +25,6 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
-        Thread myThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(1500);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        myThread.start();*/
-
         super.onCreate(savedInstanceState);
         data = new Data();
         if ( !isOnline() ){
@@ -46,6 +36,7 @@ public class SplashScreen extends AppCompatActivity {
         //data.LoadUser(this);
 
         Context context = this;
+        //savedata(context);
         if(data.LoadUser(this)){
             if(data.user!=null)
             {
@@ -79,5 +70,40 @@ public class SplashScreen extends AppCompatActivity {
     {
         Intent intent = new Intent(this, SliderActivity.class);
         startActivity(intent);
+    }
+
+    private void savedata(Context context)
+    {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        try {
+            FileOutputStream fos =  context.openFileOutput("data.out", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(data);
+            os.close();
+            fos.close();
+        } catch (IOException e) {
+            alert.setMessage(e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        }
+    }
+
+    private void loaddata(Context context)
+    {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        try {
+            FileInputStream fis = context.openFileInput("data.out");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            data = (Data) is.readObject();
+            is.close(); fis.close();
+        } catch (IOException e) {
+            alert.setMessage(e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            alert.setMessage(e.getMessage());
+            alert.show();
+        }
     }
 }

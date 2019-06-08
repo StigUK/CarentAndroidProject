@@ -13,9 +13,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import prusbogdan.carent.Classes.Banlist;
+import prusbogdan.carent.Classes.CarModel;
+import prusbogdan.carent.Classes.Categry;
+import prusbogdan.carent.Classes.Order;
 import prusbogdan.carent.Classes.User;
 import prusbogdan.carent.Classes.UserInfo;
 import retrofit2.Callback;
@@ -28,6 +33,23 @@ public class Data implements Serializable {
     @SerializedName("user")
     @Expose
     User user;
+    @SerializedName("currentcar")
+    @Expose
+    CarModel CurrentcarModel;
+    @SerializedName("categories")
+    @Expose
+    public
+    ArrayList<Categry> categories;
+    @SerializedName("carmodels")
+    @Expose
+    public
+    ArrayList<CarModel> carModels;
+    @SerializedName("orders")
+    @Expose
+    ArrayList<Order> orders;
+    @SerializedName("currentorder")
+    @Expose
+    Order currentorder;
     @SerializedName("url")
     @Expose
     String url = "http://192.168.1.210";

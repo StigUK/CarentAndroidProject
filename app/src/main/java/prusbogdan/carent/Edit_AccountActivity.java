@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class Edit_AccountActivity extends AppCompatActivity implements DatePicke
     TextInputEditText licensedate;
     Retrofit retrofit;
     Api api;
-    Data data;
+    public static Data data;
     Context context = this;
     DatePickerDialog datePickerDialog;
     @Override
@@ -66,7 +67,17 @@ public class Edit_AccountActivity extends AppCompatActivity implements DatePicke
         changepassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context, ChangepasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.swiperefreshedit);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                check_user();
+                refleshfields();
+                pullToRefresh.setRefreshing(false);
             }
         });
         cancelchanges.setOnClickListener(new View.OnClickListener() {

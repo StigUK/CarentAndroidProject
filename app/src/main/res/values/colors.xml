@@ -5,4 +5,9 @@
     <color name="colorAccent">#2196F3</color>
     <color name="banbackred">#b72f2f</color>
     <color name="white">#FFFFFF</color>
+    <color name="backwhite">#3C3C3C</color>
+    <color name="positive">#00B500</color>
+    <color name="negative">#F81900</color>
+    <color name="yellow">#F8BC00</color>
+    <color name="blue">#4284F3</color>
 </resources>

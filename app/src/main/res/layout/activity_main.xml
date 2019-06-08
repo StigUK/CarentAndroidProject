@@ -5,24 +5,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:padding="0dp"
     tools:context=".MainActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/title_home"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
     </android.support.v4.widget.NestedScrollView>
 
@@ -34,6 +22,36 @@
         tools:layout_editor_absoluteY="8dp"
         android:visibility="invisible">
         <include layout="@layout/account" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_carcatalog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_marginBottom="55dp"
+        android:visibility="invisible">
+        <include layout="@layout/catalog" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_orders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_marginBottom="55dp"
+        android:visibility="invisible">
+        <include layout="@layout/orders" />
+        <FrameLayout
+            android:id="@+id/nullorder"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/nullorder"/>
+        </FrameLayout>
+
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView

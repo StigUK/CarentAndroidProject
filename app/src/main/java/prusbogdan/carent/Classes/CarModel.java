@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import prusbogdan.carent.MainActivity;
+
 public class CarModel implements Serializable {
     @SerializedName("id")
     @Expose
@@ -103,5 +105,17 @@ public class CarModel implements Serializable {
 
     public int getCount() {
         return count;
+    }
+
+    public String getCategoryString()
+    {
+        for(int i=0; i<MainActivity.data.categories.size(); i++)
+        {
+            if(MainActivity.data.categories.get(i).getId()==this.id)
+            {
+                return MainActivity.data.categories.get(i).getName();
+            }
+        }
+        return null;
     }
 }

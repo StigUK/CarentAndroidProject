@@ -52,7 +52,7 @@ public class Data implements Serializable {
     Order currentorder;
     @SerializedName("url")
     @Expose
-    String url = "http://192.168.1.210";
+    String url = "http://carent.zzz.com.ua";
     @SerializedName("ban;")
     @Expose
     Banlist ban;

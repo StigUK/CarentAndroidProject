@@ -35,6 +35,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,12 +71,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FrameLayout layout_home = findViewById(R.id.layout_home);
             FrameLayout layout_account = findViewById(R.id.layout_account);
             FrameLayout layout_carcatalog = findViewById(R.id.layout_carcatalog);
             FrameLayout layout_orders = findViewById(R.id.layout_orders);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     setTitle("Home");
+                    layout_home.setVisibility(View.VISIBLE);
                     layout_account.setVisibility(View.INVISIBLE);
                     layout_orders.setVisibility(View.INVISIBLE);
                     layout_carcatalog.setVisibility(View.INVISIBLE);
@@ -85,15 +88,18 @@ public class MainActivity extends AppCompatActivity {
                     layout_orders.setVisibility(View.INVISIBLE);
                     layout_account.setVisibility(View.INVISIBLE);
                     layout_carcatalog.setVisibility(View.VISIBLE);
+                    layout_home.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.navigation_booking:
                     setTitle("Booking");
                     layout_account.setVisibility(View.INVISIBLE);
                     layout_carcatalog.setVisibility(View.INVISIBLE);
                     layout_orders.setVisibility(View.VISIBLE);
+                    layout_home.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.navigation_account:
                     setTitle("Account");
+                    layout_home.setVisibility(View.INVISIBLE);
                     layout_account.setVisibility(View.VISIBLE);
                     layout_orders.setVisibility(View.INVISIBLE);
                     layout_carcatalog.setVisibility(View.INVISIBLE);
@@ -183,7 +189,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        home_slier();
         reloadcatalog();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         reloadOrders();
     }
 
@@ -379,6 +391,48 @@ public class MainActivity extends AppCompatActivity {
             bmImage.setImageBitmap(result);
             //bmImage.setImageBitmap(result);
         }
+    }
+
+    ViewFlipper homeslider;
+
+    private void home_slier()
+    {
+        homeslider = findViewById(R.id.slider_home);
+        int images[] = {R.drawable.hslide1, R.drawable.hslide2, R.drawable.hslide3, R.drawable.hslide4, R.drawable.hslide5, R.drawable.hslide6};
+        for(int image : images)
+        {
+            flipper_image(image);
+        }
+        Button visit = findViewById(R.id.visitweb);
+        visit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = data.url;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+        Button map = findViewById(R.id.bt_map);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=49.433231, 27.004931");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+    }
+
+    public void flipper_image(int image){
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(image);
+        homeslider.addView(imageView);
+        homeslider.setFlipInterval(6400);
+        homeslider.setAutoStart(true);
+        homeslider.setInAnimation(this, android.R.anim.slide_in_left);
+        homeslider.setOutAnimation(this, android.R.anim.slide_out_right);
     }
 
     private void itsnew()
@@ -682,7 +736,7 @@ public class MainActivity extends AppCompatActivity {
         switch (order.getActive()) {
             case 0:{
                 status.setTextColor(this.getResources().getColor(R.color.yellow));
-                status.setText(getString(R.string.status)+" "+getString(R.string.payexpected));
+                status.setText(getString(R.string.status)+" "+getString(R.string.reserved));
                 break;
             }
             case 1:{
@@ -692,17 +746,12 @@ public class MainActivity extends AppCompatActivity {
             }
             case 2: {
                 status.setTextColor(this.getResources().getColor(R.color.positive));
-                status.setText(getString(R.string.status)+" "+getString(R.string.paid));
+                status.setText(getString(R.string.status)+" "+getString(R.string.active));
                 break;
             }
             case 3: {
                 status.setTextColor(this.getResources().getColor(R.color.negative));
                 status.setText(getString(R.string.status)+" "+getString(R.string.canceled));
-                break;
-            }
-            case 4: {
-                status.setTextColor(this.getResources().getColor(R.color.blue));
-                status.setText(getString(R.string.status)+" "+getString(R.string.active));
                 break;
             }
         }

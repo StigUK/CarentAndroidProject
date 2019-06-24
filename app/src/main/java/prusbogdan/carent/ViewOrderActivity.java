@@ -6,15 +6,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
+
+import com.google.zxing.WriterException;
 
 import org.w3c.dom.Text;
 
@@ -23,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import prusbogdan.carent.Classes.Banlist;
 import prusbogdan.carent.Classes.Order;
 import prusbogdan.carent.Classes.User;
@@ -38,18 +46,22 @@ public class ViewOrderActivity extends AppCompatActivity {
     Retrofit retrofit;
     Api api;
     Context context;
+    Button cancel_order;
+    ImageView QrImage;
+    Bitmap bitmap;
+    QRGEncoder qrgEncoder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.viewbooking);
         setContentView(R.layout.activity_view_order);
         data = MainActivity.data;
+        cancel_order = findViewById(R.id.vieworder_cancel);
         setFields();
-        Button cancel = findViewById(R.id.vieworder_cancel);
-        Button pay = findViewById(R.id.vieworder_pay);
+        final Button pay = findViewById(R.id.vieworder_pay);
+        QrImage = findViewById(R.id.image_qrcode);
         context = this;
-
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageView image = new ImageView(context);
@@ -120,6 +132,29 @@ public class ViewOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 check_user();
+                String link = data.url + "/admin/order/view?id=" + data.currentorder.getId();
+                WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+                Display display = manager.getDefaultDisplay();
+                Point point = new Point();
+                display.getSize(point);
+                int width = point.x;
+                int height = point.y;
+                int smallerDimension = width < height ? width : height;
+                smallerDimension = smallerDimension * 3 / 4;
+                qrgEncoder = new QRGEncoder(
+                        link, null,
+                        QRGContents.Type.TEXT,
+                        smallerDimension);
+                try {
+                    bitmap = qrgEncoder.encodeAsBitmap();
+                    QrImage.setImageBitmap(bitmap);
+                    TextClock txtclck = findViewById(R.id.simpleTextClock);
+                    pay.setEnabled(false);
+                    txtclck.setVisibility(View.VISIBLE);
+                    QrImage.setVisibility(View.VISIBLE);
+                } catch (WriterException e) {
+
+                }
             }
         });
     }
@@ -142,27 +177,25 @@ public class ViewOrderActivity extends AppCompatActivity {
         switch (data.currentorder.getActive()) {
             case 0:{
                 status.setTextColor(this.getResources().getColor(R.color.yellow));
-                status.setText(getString(R.string.status)+" "+getString(R.string.payexpected));
+                status.setText(getString(R.string.status)+" "+getString(R.string.reserved));
                 break;
             }
             case 1:{
+                cancel_order.setEnabled(false);
                 status.setTextColor(this.getResources().getColor(R.color.white));
                 status.setText(getString(R.string.status)+" "+getString(R.string.completed));
                 break;
             }
             case 2: {
+                cancel_order.setEnabled(false);
                 status.setTextColor(this.getResources().getColor(R.color.positive));
-                status.setText(getString(R.string.status)+" "+getString(R.string.paid));
+                status.setText(getString(R.string.status)+" "+getString(R.string.active));
                 break;
             }
             case 3: {
+                cancel_order.setEnabled(false);
                 status.setTextColor(this.getResources().getColor(R.color.negative));
                 status.setText(getString(R.string.status)+" "+getString(R.string.canceled));
-                break;
-            }
-            case 4: {
-                status.setTextColor(this.getResources().getColor(R.color.blue));
-                status.setText(getString(R.string.status)+" "+getString(R.string.active));
                 break;
             }
         }

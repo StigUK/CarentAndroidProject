@@ -38,9 +38,9 @@ public class SliderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_slider);
         data = SplashScreen.data;
         Context context = this;
-        setContentView(R.layout.activity_slider);
         final ViewPager viewPager = findViewById(R.id.viewPager);
         ImageAdapter adapter = new ImageAdapter(this);
         final TextView textView = findViewById(R.id.slidertest);
@@ -61,51 +61,9 @@ public class SliderActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*car.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int pointerIndex = event.getActionIndex();
-                int pointerId = event.getPointerId(pointerIndex);
-                int maskedAction = event.getActionMasked();
-                switch (maskedAction) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_POINTER_DOWN: {
-                        // TODO use data
-                        break;
-                    }
-                    case MotionEvent.ACTION_MOVE: { // a pointer was moved
-                        // TODO use data
-                        textView.setText(event.getX()+"");
-                        setMargins(car, (int)event.getX(), height-430, 0, 0);
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:
-                    {
-
-                        break;
-                    }
-                    case MotionEvent.ACTION_POINTER_UP:
-                    case MotionEvent.ACTION_CANCEL: {
-                        // TODO use data
-                        break;
-                    }
-                }
-                return true;
-            }
-        });*/
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //final Handler handler = new Handler();
-                //final int delay = 1; //milliseconds
-                /*handler.postDelayed(new Runnable(){
-                    public void run(){
-                        //viewPager.scrollBy();
-                        viewPager.scrollBy(viewPager.getScrollX()+1,0);
-                        handler.postDelayed(this, delay);
-                    }
-                }, delay);*/
-
                 viewPager.setCurrentItem(2);
             }
         });

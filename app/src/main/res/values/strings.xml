@@ -91,4 +91,12 @@
     <string name="ordererror">There was an error while making a reservation!</string>
     <string name="successcancel">Booking is canceled!</string>
     <string name="questcancel">Do you really want to cancel your reservation? This action can not be canceled!</string>
+    <string name="reserved">Reserved</string>
+    <string name="showqr">Show QR link</string>
+    <string name="visitwebsite">Visit our website</string>
+    <string name="visitoffice">Visit our office</string>
+    <string name="contacts">Contacts:</string>
+    <string name="contacts1">Phone number: 8 (800) 555 35 35</string>
+    <string name="contacts2">Email: carentproject@gmail.com</string>
+    <string name="contacts3">Address: Zarichanska St, 10, Khmel`nyts`kyi, Khmel`nyts`ka oblast, 29000</string>
 </resources>
